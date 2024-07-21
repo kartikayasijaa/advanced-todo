@@ -3,7 +3,6 @@ from todo.models.user import User
 
 class UserOutputSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
-
     class Meta:
         model = User
         fields = (
