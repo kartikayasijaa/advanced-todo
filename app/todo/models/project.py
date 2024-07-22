@@ -13,3 +13,11 @@ class Project(TimeStampModelMixin):
     is_public = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='created_projects', null=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_projects', null=True)
+
+    def update(self, **kwargs: Any) -> None:
+        for attr, value in kwargs.items():
+            if hasattr(self, attr):
+                setattr(self, attr, value)
+            else:
+                raise AttributeError(f"Attribute '{attr}' does not exist on Project model.")
+        self.save()
