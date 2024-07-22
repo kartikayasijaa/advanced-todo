@@ -15,7 +15,7 @@ class User(TimeStampModelMixin, AbstractBaseUser):
     email = models.EmailField(unique=True, blank=True, null=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30, blank=True)
-    phone_number = models.CharField(max_length=10, unique=True)
+    phone_number = models.CharField(max_length=10, unique=True, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = "email"

@@ -39,14 +39,11 @@ class TaskViewSet(viewsets.GenericViewSet):
         except Task.DoesNotExist:
             return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        if task.created_by != request.user:
-            return Response({'error': 'You are not allowed to update this task'}, status=status.HTTP_403_FORBIDDEN)
-
         input_serializer = self.input_serializer_class(task, data=request.data, partial=True)
         input_serializer.is_valid(raise_exception=True)
 
         try:
-            task.update(**input_serializer.validated_data, updated_by=request.user)
+            task.update(**input_serializer.validated_data, user=request.user)
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except AttributeError as e:

@@ -5,6 +5,7 @@ from todo.models import TaskAssignment
 from rest_framework.response import Response
 from rest_framework import status
 from todo.models import Task
+import uuid
 
 class TaskAssignmentViewSet(viewsets.GenericViewSet):
     permission_classes = (IsAuthenticated,)
@@ -15,7 +16,7 @@ class TaskAssignmentViewSet(viewsets.GenericViewSet):
         input_serializer = self.input_serializer_class(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
-        task = Task.objects.get(id=input_serializer.validated_data.get('task'))
+        task = input_serializer.validated_data.get('task')
         if task.created_by != request.user:
             return Response({'error': 'You are not allowed to add assignee for this task'}, status=status.HTTP_403_FORBIDDEN)
 
@@ -32,9 +33,9 @@ class TaskAssignmentViewSet(viewsets.GenericViewSet):
         input_serializer = self.input_serializer_class(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
-        task = Task.objects.get(id=input_serializer.validated_data.get('task'))
+        task = input_serializer.validated_data.get('task')
         if task.created_by != request.user:
-            return Response({'error': 'You are not allowed to remove assignee for this task'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'error': 'You are not allowed to add assignee for this task'}, status=status.HTTP_403_FORBIDDEN)
 
         try:
             task_assignment = TaskAssignment.objects.get(

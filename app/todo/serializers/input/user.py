@@ -5,7 +5,7 @@ class CreateUserInputSerializer(serializers.Serializer):
     first_name = serializers.CharField(required=True, max_length=30)
     last_name = serializers.CharField(required=False, allow_blank=True, max_length=30)
     email = serializers.EmailField(required=True)
-    phone_number = serializers.CharField(required=False, max_length=10, min_length=10)
+    phone_number = serializers.CharField(required=False, max_length=10, min_length=10, allow_blank=True)
     password = serializers.CharField(write_only=True, required=True, min_length=5)
     
     def validate_email(self, value):
